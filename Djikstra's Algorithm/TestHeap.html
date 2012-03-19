@@ -2,40 +2,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-        <title>Djikstra's Algorithm</title>
+        <title>Test Heap</title>
         <link href="/Ninja/css/test.css" rel="stylesheet" type="text/css">
         <script type="text/javascript">
-            //	Djikstra's Algorithm (pseudo-code)
-            //	Create an adjacency list which represents the graph
-            //	of connected elements (in this case cities)
-            //	To do so, create a function - makeRoad - that
-            //	takes three arguments: a vertex u, a vertex v and
-            //	the weight of their edge
-            
-            //	Add all the roads in the map to create this adjacency list
-            //	For example, you'd call something like this:
-            //	makeRoad("City A", "City B", distance);
-            //	makeRoad("City A", "City C", distance);
-            //	etc ...
-            
-            //	Now for the algorithm
-            //	Djikstra's algorithm uses a graph and a priority queue
-            //	First, you create a graph
-            //	Second, you take all the vertices in the graph and add
-            //	them to the priority queue.  You assign a distance to each
-            //	vertex.  Initially, the start vertex is assigned a distance of
-            //	zero, and all other vertices are assigned a distance of 'infinity'.
-            //	Each vertex is pushed onto the priority queue
-            
-            //	Then, you initialize the algorithm with the start vertex and
-            //	its distance of zero.
-            
-            //	While the priority queue is not empty
-            //	You grab the highest priority vertex off the priority queue
-            
             window.onload = function(){
                 var size = 10;
-                this.heap = new Heap(size);
+                this.heap = new Heap(size, function ( a, b ) {
+					if ( a > b ) {
+						return 1 ;
+					}
+					if ( a < b ) {
+						return -1 ;
+					}
+					return 0 ;
+				});
                 assert(typeof Heap === 'function', "The heap is a function.");
                 assert(heap.isEmpty() === true, "The heap is empty.");
                 

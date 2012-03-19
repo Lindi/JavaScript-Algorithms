@@ -38,7 +38,7 @@ var Heap = (function(){
                 //	If the item being inserted is greater than
                 //	the last leaf in level order, or it's greater
                 //	than the current parent, insert it and return 
-                if (item > queue[parent]) {
+                if ( compare( item, queue[parent] ) === 1 ) { //item > queue[parent]) {
                     queue[child] = item;
                     return;
                 }
@@ -59,22 +59,22 @@ var Heap = (function(){
         },
         clear: function(){
             for (var i = 1; i <= queue.length-1; i++) {
-                queue[i] = Number.MAX_VALUE;
+                queue[i] = undefined ;
             }
 			count = 0 ;
         },
         find: function(item){
         
-            if (queue[count] == item) {
+            if ( compare( queue[count], item ) === 0 ) { //queue[count] == item) {
                 return count;
             }
             var child = count;
             var parent = Math.floor(child / 2);
             while (parent != 0) {
-                if (queue[parent] <= item) {
+                if ( compare(queue[parent], item ) !== 1 ) { //queue[parent] <= item) {
                     var index = parent;
                     while (index <= child) {
-                        if (queue[index] == item) {
+                        if ( compare(queue[index], item ) === 0 ) { //queue[index] == item) {
                             return index;
                         }
 						++index ;
@@ -99,7 +99,7 @@ var Heap = (function(){
             var child = index;
             var parent = Math.floor(child / 2);
             while (parent != 0) {
-                if (item > queue[parent]) {
+                if ( compare( item, queue[parent] ) === 1 ) { //item > queue[parent]) {
                     queue[child] = item;
                     return;
                 }
@@ -109,9 +109,6 @@ var Heap = (function(){
                 parent = Math.floor(child / 2);
             }
             queue[child] = item;
-        },
-        increase: function(item){
-        
         },
         remove: function(){
         
@@ -140,7 +137,7 @@ var Heap = (function(){
                     
                     //	That way, the smallest value bubbles
                     //	to the top of the heap
-                    if (queue[child + 1] < queue[child]) {
+                    if ( compare(queue[child+1], queue[child] ) === -1 ) { //queue[child + 1] < queue[child]) {
                         child++;
                     }
                 }
@@ -150,7 +147,7 @@ var Heap = (function(){
                 //	being inserted in the current list position (parent)
                 //	and return (we've identified the place where
                 //	all the children are greater than the current value)
-                if (queue[child] >= insert) {
+                if ( compare( queue[child], insert ) !== -1 ) { //queue[child] >= insert) {
                     queue[parent] = insert;
                     return item;
                 }

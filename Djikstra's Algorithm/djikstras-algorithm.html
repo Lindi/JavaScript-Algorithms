@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Djikstra's Algorithm</title>
+        <link href="/Ninja/css/test.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript">
+            //	Djikstra's Algorithm (pseudo-code)
+            //	Create an adjacency list which represents the graph
+            //	of connected elements (in this case cities)
+            //	To do so, create a function - makeRoad - that
+            //	takes three arguments: a vertex u, a vertex v and
+            //	the weight of their edge
+            
+            //	Add all the roads in the map to create this adjacency list
+            //	For example, you'd call something like this:
+            //	makeRoad("City A", "City B", distance);
+            //	makeRoad("City A", "City C", distance);
+            //	etc ...
+            
+            //	Now for the algorithm
+            //	Djikstra's algorithm uses a graph and a priority queue
+            //	First, you create a graph
+            //	Second, you take all the vertices in the graph and add
+            //	them to the priority queue.  You assign a distance to each
+            //	vertex.  Initially, the start vertex is assigned a distance of
+            //	zero, and all other vertices are assigned a distance of 'infinity'.
+            //	Each vertex is pushed onto the priority queue
+            
+            //	Then, you initialize the algorithm with the start vertex and
+            //	its distance of zero.
+            
+            //	While the priority queue is not empty
+            //	You grab the highest priority vertex off the priority queue
+            
+            function makeRoad(from, to, distance){
+                graph.addEdge(from, to, distance);
+            }
+            
+            function makeRoads(){
+                var roads = [] ;
+				roads.push(["Point Kiukiu", "Hanaiapa", 19]);
+				roads.push(["Point Kiukiu", "Mt. Feani", 15]);
+				roads.push(["Point Kiukiu", "Taaoa", 15]);
+ 				roads.push(["Hanaiapa", "Airport", 6]);
+ 				roads.push(["Mt. Feani", "Airport", 5]);
+ 				roads.push(["Mt. Feani", "Mt. Temetiu", 8]);
+				roads.push(["Taaoa", "Mt. Temetiu", 4]);
+				roads.push(["Taaoa", "Atuona", 3]);
+				roads.push(["Airport", "Atuona", 4]);
+				roads.push(["Airport", "Mt. Ootua", 11]);
+				roads.push(["Atuona", "Hanakee Pearl Lodge", 1]);
+				roads.push(["Hanakee Pearl Lodge", "Cemetery", 6]);
+ 				roads.push(["Cemetery", "Mt. Ootua", 5]);
+ 				roads.push(["Mt. Ootua", "Hanapaoa", 3]);
+ 				roads.push(["Mt. Ootua", "Puamua", 13]);
+ 				roads.push(["Puamua", "Point Teohotepapapa", 14]);
+       }
+            
+            window.onload = function(){
+                var graph = new AdjacencyList();
+                
+                this.heap = new Heap(size, function(a, b){
+                    if (a.distance > b.distance) {
+                        return 1;
+                    }
+                    if (a.distance < b.distance) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                assert(typeof Heap === 'function', "The heap is a function.");
+                assert(heap.isEmpty() === true, "The heap is empty.");
+                
+                //	Add something to our heap
+                heap.insert(10);
+                assert(heap.isEmpty() === false, "The heap is not empty.");
+                
+                //	Add a bunch of numbers to the heap
+                for (var i = 0; i < size - 1; i++) {
+                    heap.insert(Math.floor(Math.random() * 10));
+                }
+                
+                //	
+                assert(heap.insert(100) === false, "We can't insert any more items into the heap because it's full.");
+                
+                //	Now take them out and stick them into this array
+                //	and then test to make sure that the array is
+                //	is sorted in increasing order
+                this.array = [];
+                while (!heap.isEmpty()) {
+                    var value = heap.remove();
+                    array.push(value);
+                    if (array.length > 1) {
+                        assert(array[array.length - 1] >= array[array.length - 2], "The array is in sorted order.");
+                    }
+                }
+                
+                assert(this.array.length == size, "We removed " + size + " items from the heap and put them into the array.")
+                
+                heap.clear();
+                heap.insert(1);
+                heap.insert(3);
+                heap.insert(7);
+                heap.insert(8);
+                heap.insert(9);
+                
+                var index = heap.find(1);
+                assert(index === 1, "Item 1 should be in position 1.");
+                index = heap.find(3);
+                assert(index === 2, "Item 3 should be in position 2.");
+                index = heap.find(9);
+                assert(index === 5, "Item 9 should be in position 5.");
+                index = heap.find(7);
+                assert(index === 3, "Item 7 should be in position 3.");
+                index = heap.find(8);
+                assert(index === 4, "Item 8 should be in position 4.");
+                
+                heap.decrease(2, index);
+                index = heap.find(2);
+                assert(index === 2, "Item 2 should be in position 2.");
+                heap.decrease(1, heap.find(1));
+                index = heap.find(1);
+                assert(index === 1, "Item 1 should be in position 1.");
+                
+            }
+        </script>
+    </head>
+    <body>
+        <script src="/Ninja/js/test.js" type="text/javascript">
+        </script>
+        <script src="/Ninja/js/heap.js" type="text/javascript">
+        </script>
+        <script src="/Ninja/js/adjacency-list.js" type="text/javascript">
+        </script>
+        <ul id="results">
+        </ul>
+    </body>
+</html>
