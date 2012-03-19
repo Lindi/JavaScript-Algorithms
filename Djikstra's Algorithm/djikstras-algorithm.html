@@ -101,14 +101,16 @@
                 
                 function findShortestPaths(from,to)
 				{
-                    //	Take the point with the lowest distance off of the top of the heap
+					//	Todo: Terminate the algorithm when u === to
                     while (!priorityQueue.isEmpty()) {
+	                    //	Take the point with the lowest distance off of the top of the heap
                         var u = priorityQueue.remove();
                         var neighbors = vertices[u.name];
                         for (var neighbor in neighbors) {
                             var distance = u.distance + neighbor.weight;
 							
 							//	Todo: Implement the search function to use property names for lookup
+							//	Pass in a comparison function to this method
                             var index = priorityQueue.find(neighbor.name);
 							
 							//	Todo: Implement a getItem method on the priority queue
@@ -126,12 +128,15 @@
                         }
                     }
 					
+					//	Todo: Add distances
 					var f ;
+					var t = to ;
 					var route = [to] ;
-					while (( f = predecessor[to] ) != from ) {
+					while (( f = predecessor[t] ) != from ) {
 						route.unshift(f);
+						t = f ;
 					}
-					route.unshift(to);
+					route.unshift(from);
 					return route ;
 					
                 }
