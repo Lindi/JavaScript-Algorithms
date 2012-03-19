@@ -38,29 +38,41 @@
             }
             
             function makeRoads(){
-                var roads = [] ;
-				roads.push(["Point Kiukiu", "Hanaiapa", 19]);
-				roads.push(["Point Kiukiu", "Mt. Feani", 15]);
-				roads.push(["Point Kiukiu", "Taaoa", 15]);
- 				roads.push(["Hanaiapa", "Airport", 6]);
- 				roads.push(["Mt. Feani", "Airport", 5]);
- 				roads.push(["Mt. Feani", "Mt. Temetiu", 8]);
-				roads.push(["Taaoa", "Mt. Temetiu", 4]);
-				roads.push(["Taaoa", "Atuona", 3]);
-				roads.push(["Airport", "Atuona", 4]);
-				roads.push(["Airport", "Mt. Ootua", 11]);
-				roads.push(["Atuona", "Hanakee Pearl Lodge", 1]);
-				roads.push(["Hanakee Pearl Lodge", "Cemetery", 6]);
- 				roads.push(["Cemetery", "Mt. Ootua", 5]);
- 				roads.push(["Mt. Ootua", "Hanapaoa", 3]);
- 				roads.push(["Mt. Ootua", "Puamua", 13]);
- 				roads.push(["Puamua", "Point Teohotepapapa", 14]);
-       }
+                var roads = [];
+                roads.push(["Point Kiukiu", "Hanaiapa", 19]);
+                roads.push(["Point Kiukiu", "Mt. Feani", 15]);
+                roads.push(["Point Kiukiu", "Taaoa", 15]);
+                roads.push(["Hanaiapa", "Airport", 6]);
+                roads.push(["Mt. Feani", "Airport", 5]);
+                roads.push(["Mt. Feani", "Mt. Temetiu", 8]);
+                roads.push(["Taaoa", "Mt. Temetiu", 4]);
+                roads.push(["Taaoa", "Atuona", 3]);
+                roads.push(["Airport", "Atuona", 4]);
+                roads.push(["Airport", "Mt. Ootua", 11]);
+                roads.push(["Atuona", "Hanakee Pearl Lodge", 1]);
+                roads.push(["Hanakee Pearl Lodge", "Cemetery", 6]);
+                roads.push(["Cemetery", "Mt. Ootua", 5]);
+                roads.push(["Mt. Ootua", "Hanapaoa", 3]);
+                roads.push(["Mt. Ootua", "Puamua", 13]);
+                roads.push(["Puamua", "Point Teohotepapapa", 14]);
+                for (var road in roads) {
+                    makeRoad(road[0], road[1], road[2]);
+                }
+            }
             
             window.onload = function(){
+            
+                //	Make a graph that is an adjacency list
                 var graph = new AdjacencyList();
                 
-                this.heap = new Heap(size, function(a, b){
+                //	Add all the roads to the graph
+                makeRoads();
+                
+                //	Grab all the vertices in the graph
+                var locations = graph.getVertices();
+                
+                //	Create the priority queue that is implemented with a min-heap
+                var priorityQueue = new Heap(graph.size(), function(a, b){
                     if (a.distance > b.distance) {
                         return 1;
                     }
@@ -69,60 +81,60 @@
                     }
                     return 0;
                 });
-                assert(typeof Heap === 'function', "The heap is a function.");
-                assert(heap.isEmpty() === true, "The heap is empty.");
                 
-                //	Add something to our heap
-                heap.insert(10);
-                assert(heap.isEmpty() === false, "The heap is not empty.");
+                //	Define the single source
+                var source = "Point Kiukiu";
                 
-                //	Add a bunch of numbers to the heap
-                for (var i = 0; i < size - 1; i++) {
-                    heap.insert(Math.floor(Math.random() * 10));
+                //	Initialize the distance and predecessor lists
+                var dist = {};
+                var predecessor = {};
+                
+                //	Initialize the priority queue
+                for (var location in locations) {
+                    dist[location] = Number.MAX_VALUE;
+                    predecessor[location] = -1;
+                    priorityQueue.insert({
+                        name: location,
+                        distance: (location === source ? 0 : Number.MAX_VALUE)
+                    });
                 }
                 
-                //	
-                assert(heap.insert(100) === false, "We can't insert any more items into the heap because it's full.");
-                
-                //	Now take them out and stick them into this array
-                //	and then test to make sure that the array is
-                //	is sorted in increasing order
-                this.array = [];
-                while (!heap.isEmpty()) {
-                    var value = heap.remove();
-                    array.push(value);
-                    if (array.length > 1) {
-                        assert(array[array.length - 1] >= array[array.length - 2], "The array is in sorted order.");
+                function findShortestPaths(from,to)
+				{
+                    //	Take the point with the lowest distance off of the top of the heap
+                    while (!priorityQueue.isEmpty()) {
+                        var u = priorityQueue.remove();
+                        var neighbors = vertices[u.name];
+                        for (var neighbor in neighbors) {
+                            var distance = u.distance + neighbor.weight;
+							
+							//	Todo: Implement the search function to use property names for lookup
+                            var index = priorityQueue.find(neighbor.name);
+							
+							//	Todo: Implement a getItem method on the priority queue
+                            var v = priorityQueue.getItem(index);
+							
+                            if (v.distance > distance) {
+								v.distance = distance ;
+								
+								//	Todo: Implement the decrease function such that it takes
+								//	a property name and value, and sets the appropriate value name
+								priorityQueue.decrease(v,distance);
+                                dist[v.name] = distance;
+                                predecessor[v.name] = u.name;
+                            }
+                        }
                     }
+					
+					var f ;
+					var route = [to] ;
+					while (( f = predecessor[to] ) != from ) {
+						route.unshift(f);
+					}
+					route.unshift(to);
+					return route ;
+					
                 }
-                
-                assert(this.array.length == size, "We removed " + size + " items from the heap and put them into the array.")
-                
-                heap.clear();
-                heap.insert(1);
-                heap.insert(3);
-                heap.insert(7);
-                heap.insert(8);
-                heap.insert(9);
-                
-                var index = heap.find(1);
-                assert(index === 1, "Item 1 should be in position 1.");
-                index = heap.find(3);
-                assert(index === 2, "Item 3 should be in position 2.");
-                index = heap.find(9);
-                assert(index === 5, "Item 9 should be in position 5.");
-                index = heap.find(7);
-                assert(index === 3, "Item 7 should be in position 3.");
-                index = heap.find(8);
-                assert(index === 4, "Item 8 should be in position 4.");
-                
-                heap.decrease(2, index);
-                index = heap.find(2);
-                assert(index === 2, "Item 2 should be in position 2.");
-                heap.decrease(1, heap.find(1));
-                index = heap.find(1);
-                assert(index === 1, "Item 1 should be in position 1.");
-                
             }
         </script>
     </head>
