@@ -63,31 +63,42 @@ var Heap = (function(){
             }
 			count = 0 ;
         },
-        find: function(item){
+        find: function(item, found){
         
-            if ( compare( queue[count], item ) === 0 ) { //queue[count] == item) {
-                return count;
-            }
-            var child = count;
-            var parent = Math.floor(child / 2);
-            while (parent != 0) {
-                if ( compare(queue[parent], item ) !== 1 ) { //queue[parent] <= item) {
-                    var index = parent;
-                    while (index <= child) {
-                        if ( compare(queue[index], item ) === 0 ) { //queue[index] == item) {
-                            return index;
-                        }
-						++index ;
-                    }
-                } else {
-					child = parent ;
-					parent = Math.floor( child / 2 );
+//            if ( compare( queue[count], item ) === 0 ) { //queue[count] == item) {
+//                return count;
+//            }
+//            var child = count;
+//            var parent = Math.floor(child / 2);
+//            while (parent != 0) {
+//                if ( compare(queue[parent], item ) !== 1 ) { //queue[parent] <= item) {
+//                    var index = parent;
+//                    while (index <= child) {
+//                        if ( found(queue[index], item )) { //queue[index] == item) {
+//                            return index;
+//                        }
+//						++index ;
+//                    }
+//                } else {
+//					child = parent ;
+//					parent = Math.floor( child / 2 );
+//				}
+//            }
+
+			for ( var i = 1; i <= count; i++) {
+				if ( found(queue[i],item) ) {
+					return i ;
 				}
-            }
+			}
 			
 			return -1 ;
             
         },
+		getItem: function (index) {
+			if ( index >= 1 && index <= count ) {
+				return queue[index] ;			
+			}
+		},
         decrease: function(item, index){
             //	index should be between 1 and count inclusive
             if (index < 1 || index > count) {

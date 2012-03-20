@@ -55,7 +55,8 @@
                 roads.push(["Mt. Ootua", "Hanapaoa", 3]);
                 roads.push(["Mt. Ootua", "Puamua", 13]);
                 roads.push(["Puamua", "Point Teohotepapapa", 14]);
-                for (var road in roads) {
+                for (var i = 0; i < roads.length; i++) {
+                    var road = roads[i];
                     makeRoad(road[0], road[1], road[2]);
                 }
             }
@@ -63,7 +64,7 @@
             window.onload = function(){
             
                 //	Make a graph that is an adjacency list
-                var graph = new AdjacencyList();
+                this.graph = new AdjacencyList();
                 
                 //	Add all the roads to the graph
                 makeRoads();
@@ -84,6 +85,7 @@
                 
                 //	Define the single source
                 var source = "Point Kiukiu";
+                var destination = "Mt. Ootua";
                 
                 //	Initialize the distance and predecessor lists
                 var dist = {};
@@ -99,46 +101,55 @@
                     });
                 }
                 
-                function findShortestPaths(from,to)
-				{
-					//	Todo: Terminate the algorithm when u === to
+                findShortestPaths(source, destination);
+                
+                function findShortestPaths(from, to){
+                    //	Get the graph's vertices to start
+                    var vertices = graph.getVertices();
+                    
+                    //	Todo: Terminate the algorithm when u === to
                     while (!priorityQueue.isEmpty()) {
-	                    //	Take the point with the lowest distance off of the top of the heap
+                        //	Take the point with the lowest distance off of the top of the heap
                         var u = priorityQueue.remove();
                         var neighbors = vertices[u.name];
-                        for (var neighbor in neighbors) {
+                        for (var i = 0; i < neighbors.length; i++) {
+                            var neighbor = neighbors[i];
                             var distance = u.distance + neighbor.weight;
-							
-							//	Todo: Implement the search function to use property names for lookup
-							//	Pass in a comparison function to this method
-                            var index = priorityQueue.find(neighbor.name);
-							
-							//	Todo: Implement a getItem method on the priority queue
-                            var v = priorityQueue.getItem(index);
-							
-                            if (v.distance > distance) {
-								v.distance = distance ;
-								
-								//	Todo: Implement the decrease function such that it takes
-								//	a property name and value, and sets the appropriate value name
-								priorityQueue.decrease(v,distance);
-                                dist[v.name] = distance;
-                                predecessor[v.name] = u.name;
+                            
+                            //	Todo: Implement the search function to use property names for lookup
+                            //	Pass in a comparison function to this method
+                            var index = priorityQueue.find(neighbor.name, function(a, name){
+                                return (a.name === name);
+                            });
+                            
+                            if (index != -1) {
+                                //	Todo: Implement a getItem method on the priority queue
+                                var v = priorityQueue.getItem(index);
+                                
+                                if (v.distance > distance) {
+                                    v.distance = distance;
+                                    
+                                    //	Todo: Implement the decrease function such that it takes
+                                    //	a property name and value, and sets the appropriate value name
+                                    priorityQueue.decrease(v, index);
+                                    dist[v.name] = distance;
+                                    predecessor[v.name] = u.name;
+                                }
                             }
                         }
                     }
-					
-					//	Todo: Add distances
-					var f ;
-					var t = to ;
-					var route = [to] ;
-					while (( f = predecessor[t] ) != from ) {
-						route.unshift(f);
-						t = f ;
-					}
-					route.unshift(from);
-					return route ;
-					
+                    
+                    //	Todo: Add distances
+                    var f;
+                    var t = to;
+                    var route = [to];
+                    while ((f = predecessor[t]) != from) {
+                        route.unshift(f);
+                        t = f;
+                    }
+                    route.unshift(from);
+                    console.log(route);
+                    //					return route ;
                 }
             }
         </script>
