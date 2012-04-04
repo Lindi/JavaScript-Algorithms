@@ -1,0 +1,87 @@
+body {
+	/* Pretty font and color that's not quite black.  Good to add black emphasis elsewhere */
+  font-family: Trebuchet, "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", sans-serif;
+  color: #555 ;
+}
+
+h1 { font-size: 2em; margin: .67em 0 }
+h2 { font-size: 1.5em; margin: .75em 0 }
+h3 { font-size: 1.17em; margin: .83em 0 }
+h4, p	{ margin: 1.12em 0 }
+
+p {
+	color: #000000;
+}
+
+#map, form {
+	/* The map and form both have borders ... */
+	border: 1px solid #aaa ;
+}
+
+#content {
+	/* This is a one column layout, so we center this horizontally
+	 * in the page by setting the left and right margins to auto */
+	width: 650px ;
+	margin: 0 auto;
+}
+#map {
+	/* The map has no top border */
+	border-top: none ;
+}
+
+dl, fieldset {
+	
+	/* Set the default, browser/userAgent margin and padding to 0 for the fieldset
+	 * such that its child elements are able to extend all the way across */
+	margin: 0;
+	padding: 0;
+}
+
+fieldset {
+	border: none;
+}
+
+dl {
+	/* Apply a grey background to the enter definition list */
+	background: #f9f9f9;
+}
+
+dt, dd, legend {
+	/* Give the definition types and uniform padding and line height, so they align vertically
+	 * and appear to occupy the same horizontal area. (The line height property doesn't seem 
+	 * to have any effect in Safari/Chrome) */
+  padding: .5em;
+  line-height: 1.4em;
+}
+
+dt, dd {
+	/* The definition type and definition data elements should have a light-grey background
+	 * and top borders.  Remember, they're block elements, so they'll take up 100% of the
+	 * space available to them if their display mode is static (default)
+	 */
+  border: solid #e9e9e9;
+  border-width: 1px 0 0 0;
+}
+
+legend {
+	font-size: .8em ;
+	padding-left: 2em ;
+}
+dt {
+	/* What does clear: left mean? */
+	float: left;
+	clear: left;
+	text-align: right;
+	width: 6em;
+}
+
+dd {
+	padding-left: 18px ;
+}
+
+
+#map img {
+	/* How do we get the img to center itself in its parent div? */
+	display: block;
+	margin: 0 auto ;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Dijkstra's Algorithm</title>
+        <style type="text/css">
+            @import "dijkstra.css";
+        </style>
+        <script type="text/javascript" src="dijkstra.js"></script>
+    </head>
+    <body>
+        <!--
+        The relative weights of the h1, legend title and definition type labels are a mess.
+        What should they be relative to each other?
+        How do we center the image in the map?
+		Figure out why the paragraph looks bad when we toggle its visibility back to inline?
+        -->
+        <div id="content">
+            <h1>Dijkstra's Algorithm</h1>
+            <p>Say some words about Dijkstra's Algorithm.  Who was he?  When did he invent this algorithm?  In what context?</p>
+            <form>
+                <fieldset>
+                    <legend>Locations</legend>
+                    <dl>
+                        <dt>
+                            <label for="location-from">From:</label>
+                        </dt>
+                        <dd>
+                            <select name="location-from" id="location-from">
+                                <option value="1">Point Kiukiu</option>
+                                <option value="2">Hanaiapa</option>
+                                <option value="3">Mt. Feani</option>
+                                <option value="4">Taaoa</option>
+                                <option value="5">Airport</option>
+                                <option value="6">Mt. Temetiu</option>
+                                <option value="7">Atuona</option>
+                                <option value="8">Mt. Ootua</option>
+                                <option value="9">Hanakee Pearl Lodge</option>
+                                <option value="10">Cemetery</option>
+                                <option value="11">Hanapaoa</option>
+                                <option value="12">Puamua</option>
+                                <option value="13">Point Teohotepapapa</option>
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            <label for="location-to">To:</label>
+                        </dt>
+                        <dd>
+                            <select name="location-to" id="location-to">
+                                <option value="1">Point Kiukiu</option>
+                                <option value="2">Hanaiapa</option>
+                                <option value="3">Mt. Feani</option>
+                                <option value="4">Taaoa</option>
+                                <option value="5">Airport</option>
+                                <option value="6">Mt. Temetiu</option>
+                                <option value="7">Atuona</option>
+                                <option value="8">Mt. Ootua</option>
+                                <option value="9">Hanakee Pearl Lodge</option>
+                                <option value="10">Cemetery</option>
+                                <option value="11">Hanapaoa</option>
+                                <option value="12">Puamua</option>
+                                <option value="13">Point Teohotepapapa</option>
+                            </select>
+                        </dd>
+                    </dl>
+                </fieldset>
+            </form>
+            <div id="map">
+                <img src="map.png" title="Hiva Oa" alt="Hiva Oa" />
+            </div>
+        </div>
+        <script type="text/javascript">
+            var elements = document.getElementsByTagName("h1");
+            var h1 = elements[0];
+            dijkstra.addEvent(h1, 'click', function(e){
+                this.p = (this.p || document.getElementsByTagName("p")[0]);
+                this.p.style.display = (this.p.style.display == 'none' ? 'inline' : 'none');
+            });
+            
+            //	Listen for when the select elements change
+            elements = document.getElementsByTagName("select");
+            for (var i = 0, length = elements.length; i < length; i++) {
+                var select = elements[i];
+                dijkstra.addEvent(select, 'change', function(e) {
+					
+					//	Get the select element that's currently changing
+					//	(Make sure this works in IE)
+					select = e.target ;
+					
+					//	Is the innerText value browser agnostic?
+					//	I'll use firstChild.nodeValue instead
+                    console.log('change: ' + select.options[select.selectedIndex].firstChild.nodeValue );
+                });
+            }
+        </script>
+    </body>
+</html>

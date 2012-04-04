@@ -63,36 +63,13 @@ var Heap = (function(){
             }
 			count = 0 ;
         },
-        find: function(item, found){
-        
-//            if ( compare( queue[count], item ) === 0 ) { //queue[count] == item) {
-//                return count;
-//            }
-//            var child = count;
-//            var parent = Math.floor(child / 2);
-//            while (parent != 0) {
-//                if ( compare(queue[parent], item ) !== 1 ) { //queue[parent] <= item) {
-//                    var index = parent;
-//                    while (index <= child) {
-//                        if ( found(queue[index], item )) { //queue[index] == item) {
-//                            return index;
-//                        }
-//						++index ;
-//                    }
-//                } else {
-//					child = parent ;
-//					parent = Math.floor( child / 2 );
-//				}
-//            }
-
+        find: function(found){
 			for ( var i = 1; i <= count; i++) {
-				if ( found(queue[i],item) ) {
+				if ( found(queue[i]) ) {
 					return i ;
 				}
 			}
-			
 			return -1 ;
-            
         },
 		getItem: function (index) {
 			if ( index >= 1 && index <= count ) {
